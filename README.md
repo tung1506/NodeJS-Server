@@ -2,8 +2,10 @@
 
 2. Create database name 'quanlydancu'
 
-3. npm install 
+3. npm install
 
-4. npx sequelize-cli db:migrate
+4. cd src
 
-5. npm run start
+5. npx sequelize-cli db:migrate
+
+6. npm run start
