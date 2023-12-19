@@ -1,9 +1,9 @@
-Download xampp
+1. Download xampp
 
-create database name 'quanlydancu'
+2. Create database name 'quanlydancu'
 
-npm install 
+3. npm install 
 
-npx sequelize-cli db:migrate
+4. npx sequelize-cli db:migrate
 
-npm run start
+5. npm run start
