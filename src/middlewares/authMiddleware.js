@@ -4,7 +4,7 @@ import db from '../models/index';
 const authMiddleware = async (req, res, next) => {
     try {
         const token = req.header('Authorization').replace('Bearer ', '');
-        const decoded = jwt.verify(token, 'your_secret_key');
+        const decoded = jwt.verify(token, process.env.JWT_KEY);
 
         const user = await db.User.findOne({
             where: {

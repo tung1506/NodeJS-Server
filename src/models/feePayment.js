@@ -9,14 +9,19 @@ module.exports = (sequelize, DataTypes) => {
             FeePayment.belongsTo(models.Fee, {
                 foreignKey: "fee_id",
             });
+            FeePayment.belongsTo(models.Households, {
+                foreignKey: "household_number",
+            });
         }
     };
 
     FeePayment.init({
         fee_id: DataTypes.INTEGER,
         paid_amount: DataTypes.INTEGER,
-        date: DataTypes.DATE,
+        household_number: DataTypes.STRING,
         submitter_name: DataTypes.STRING,
+        note: DataTypes.STRING,
+        period: DataTypes.INTEGER,
     }, {
         sequelize,
         modelName: 'FeePayment',

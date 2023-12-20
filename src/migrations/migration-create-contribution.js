@@ -11,7 +11,7 @@ module.exports = {
             contribution_id: Sequelize.STRING,
             start_date: Sequelize.DATE,
             end_date: Sequelize.DATE,
-            note: Sequelize.DATE,
+            content: Sequelize.STRING,
         });
     },
     down: async (queryInterface, Sequelize) => {

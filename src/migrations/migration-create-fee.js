@@ -10,7 +10,6 @@ module.exports = {
             },
             fee_id: Sequelize.INTEGER,
             amount: Sequelize.STRING,
-            frequency: Sequelize.STRING,
             period: Sequelize.INTEGER,
         });
     },

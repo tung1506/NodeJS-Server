@@ -6,6 +6,13 @@ let getAllHousehold = async (req, res) => {
     return res.status(200).json(data);
 }
 
+let getFee = async (req, res) => {
+    let data = await householdService.getFee();
+
+    return res.status(200).json(data);
+}
+
 module.exports = {
     getAllHousehold: getAllHousehold,
+    getFee: getFee,
 }

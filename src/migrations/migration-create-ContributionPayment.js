@@ -10,9 +10,9 @@ module.exports = {
             },
             contribution_id: Sequelize.STRING,
             paid_amount: Sequelize.INTEGER,
-            household_id: Sequelize.INTEGER,
-            date: Sequelize.DATE,
+            household_number: Sequelize.INTEGER,
             submitter_name: Sequelize.STRING,
+            note: Sequelize.STRING,
         });
     },
     down: async (queryInterface, Sequelize) => {

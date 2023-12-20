@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
         contribution_id: DataTypes.STRING,
         start_date: DataTypes.DATE,
         end_date: DataTypes.DATE,
-        note: DataTypes.STRING,
+        content: DataTypes.STRING,
     }, {
         sequelize,
         modelName: 'Contribution',

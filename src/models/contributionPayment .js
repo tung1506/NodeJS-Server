@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     ContributionPayment.init({
         contribution_id: DataTypes.INTEGER,
         paid_amount: DataTypes.INTEGER,
-        household_id: DataTypes.INTEGER,
+        household_number: DataTypes.INTEGER,
         date: DataTypes.DATE,
         submitter_id: DataTypes.INTEGER,
     }, {

@@ -1,4 +1,5 @@
 import db from '../models/index';
+const { Sequelize } = require('sequelize');
 
 let createFee = (data) => {
     return new Promise(async (resolve, reject) => {
@@ -54,7 +55,6 @@ let getAllFeePayment = () => {
                     model: db.Fee,
                     required: true,
                 }],
-                raw: true,
                 nested: true,
             })
             resolve(data)
@@ -71,32 +71,16 @@ let createFeePayment = (data) => {
             const {
                 fee_id,
                 paid_amount,
-                date,
+                household_number,
                 submitter_name,
+                period,
             } = data;
-
-            if (!fee_id || !paid_amount || !date || !submitter_name) {
-                resolve({
-                    errCode: 1,
-                })
-            }
-
-            const fee = await db.Fee.findOne({
-                where: {
-                    fee_id: fee_id,
-                }
-            })
-
-            if (!fee) {
-                resolve({
-                    errCode: 2,
-                });
-            }
 
             await db.FeePayment.create({
                 fee_id: fee_id,
                 paid_amount: paid_amount,
-                date: date,
+                household_number: household_number,
+                period: period,
                 submitter_name: submitter_name,
             });
 
@@ -114,7 +98,7 @@ let createFeePayment = (data) => {
 let createContribution = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
-            if (!data.contribution_id || !data.start_date || !data.end_date || !data.note) {
+            if (!data.contribution_id || !data.start_date || !data.end_date || !data.content) {
                 resolve({
                     errCode: 1,
                     message: "missing parameters",
@@ -125,7 +109,7 @@ let createContribution = (data) => {
                 contribution_id: data.contribution_id,
                 start_date: data.start_date,
                 end_date: data.end_date,
-                note: data.note,
+                content: data.content,
             });
 
             if (contribution) {
@@ -142,6 +126,23 @@ let createContribution = (data) => {
     });
 };
 
+let getFeePeriod = () => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let data = db.Fee.findAll({
+                attributes: [
+                    [Sequelize.literal('DISTINCT period'), 'period'], // Specify the distinct column
+                  ],
+            })
+            resolve(data)
+
+        } catch (error) {
+            reject(error);
+        }
+    });
+};
+
+
 
 module.exports = {
     createFee: createFee,
@@ -149,4 +150,5 @@ module.exports = {
     createFeePayment: createFeePayment,
     getAllFeePayment: getAllFeePayment,
     createContribution: createContribution,
+    getFeePeriod: getFeePeriod,
 }
