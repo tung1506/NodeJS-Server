@@ -21,22 +21,29 @@ let getFee = () => {
       try {
         const query = `
         SELECT
-          h.household_number,
-          fp.fee_id,
-          f.period,
-          f.amount * (SELECT COUNT(*) FROM Users WHERE household_number = h.household_number) AS total_amount_due,
-          SUM(fp.paid_amount) AS total_amount_paid
-        FROM
-          Households h
-          RIGHT JOIN FeePayments fp ON h.household_number = fp.household_number
-          LEFT JOIN Fees f ON fp.fee_id = f.fee_id
-        WHERE
-            fp.period = f.period
-        GROUP BY
-          h.household_number,
-          fp.fee_id,
-          f.period,
-          fp.household_number;
+        household_number,
+        period,
+        SUM(total_amount_due) AS total_amount_due,
+        SUM(total_amount_paid) AS total_amount_paid
+    FROM
+        (
+            SELECT
+                h.household_number,
+                f.period,
+                f.amount * (SELECT COUNT(*) FROM Users WHERE household_number = h.household_number) AS total_amount_due,
+                COALESCE(SUM(fp.paid_amount), 0) AS total_amount_paid
+            FROM
+            Households h
+            JOIN FeePayments fp ON h.household_number = fp.household_number
+            JOIN Fees f ON fp.fee_id = f.fee_id
+            GROUP BY
+                h.household_number,
+                f.period,
+                f.amount
+        ) AS subquery
+    GROUP BY
+        household_number,
+        period;
       `;
   
       const results = await db.sequelize.query(query, { type: db.sequelize.QueryTypes.SELECT });
