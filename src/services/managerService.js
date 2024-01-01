@@ -46,6 +46,31 @@ let getFee = () => {
     });
 };
 
+let editFee = (data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let feeData = db.Fee.findOne({
+                where: {
+                    fee_id: data.fee_id,
+                    period: data.period,
+                }
+            })
+
+            feeData.amount = data.amount,
+            feeData.period = data.period,
+
+            await feeData.save();
+
+            resolve({
+                message: 'fee updated successfully',
+            })
+
+        } catch (error) {
+            reject(error);
+        }
+    });
+};
+
 let getAllFeePayment = () => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -151,4 +176,5 @@ module.exports = {
     getAllFeePayment: getAllFeePayment,
     createContribution: createContribution,
     getFeePeriod: getFeePeriod,
+    editFee: editFee,
 }
