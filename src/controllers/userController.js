@@ -74,7 +74,7 @@ let handleLoging = async (req, res) => {
     let login = await userService.handleUserLogin(username, password);
 
     if (login.errCode === 0) {
-        const token = jwt.sign({ id: login.id }, process.env.JWT_KEY, { expiresIn: '1h' });
+        const token = jwt.sign({ id: login.id }, process.env.JWT_KEY, { expiresIn: '12h' });
 
         return res.status(200).json({
             login,

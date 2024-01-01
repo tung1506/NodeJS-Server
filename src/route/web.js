@@ -56,8 +56,12 @@ let initWebRoutes = (app) => {
 
     router.get('/api/get-distinct-fee-period', managerController.getFeePeriod) // api lấy ra các đợt nộp 
      
-    router.get('/api/get-fee-for-household',authMiddleware , householdController.getFee) // api lấy ra mã hộ + khoản cần thu + khoản đã đóng với các đợt đã thu (chưa thu thì không hiện)
+    router.get('/api/get-fee-for-household' , householdController.getFee) // api lấy ra mã hộ + khoản cần thu + khoản đã đóng với các đợt đã thu (chưa thu thì không hiện)
     
+    router.get('/api/get-unpaid-amount-for-household', householdController.getUnpaidAmount)  // api lấy ra khoản cần thu cho mỗi hộ
+
+
+
     /* BẢNG MÃ FEE_ID, CONTRIBUTION_ID, ROLE:
     - phí vệ sinh -> truyền vào req.body.fee_id = 1
     - phí sinh hoạt chung -> truyền vào req.body.fee_id = 2

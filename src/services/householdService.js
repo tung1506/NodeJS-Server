@@ -77,9 +77,59 @@ let getFee = () => {
     });
   };
   
-
+let getUnpaidAmount = () => {
+    return new Promise(async (resolve, reject) => {
+        try {  
+        const results = await db.Households.findAll({
+            attributes:['household_number'],
+            raw: true,
+        });
+        
+        for(const result of results) {
+          const household_number = result.household_number;
+  
+          let member = await db.User.count({
+              where:{
+                  household_number: household_number,
+              }
+          })
+  
+          let data = await db.Fee.findAll({
+              attributes: ['amount'],
+          })
+  
+          let amount = 0;
+          for (const x of data){
+              amount += parseInt(x.amount);
+          }
+          
+          let totalAmountDue = 0;
+          totalAmountDue = amount * member;
+  
+          let data1 = await db.FeePayment.findAll({
+              attributes: ['paid_amount'],
+              where:{
+                  household_number: household_number,
+              }
+          })
+  
+          let totalPaidAmount = 0;
+          for (const x of data1){
+              totalPaidAmount += x.paid_amount;
+          }
+          result.remainingAmount = totalAmountDue - totalPaidAmount;
+ 
+        }
+  
+        resolve(results);
+        } catch (error) {
+          reject(error);
+        }
+      });
+    };
   
 module.exports = {
     getAllHousehold: getAllHousehold,
     getFee: getFee,
+    getUnpaidAmount:getUnpaidAmount,
 }
