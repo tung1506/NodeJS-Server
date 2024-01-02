@@ -52,9 +52,12 @@ let editFee = (data) => {
             let feeData = db.Fee.findOne({
                 where: {
                     fee_id: data.fee_id,
-                    period: data.period,
                 }
             })
+
+            if(!feeData){
+                resolve({message: `can't find the fee`})
+            }
 
             feeData.amount = data.amount,
             feeData.period = data.period,

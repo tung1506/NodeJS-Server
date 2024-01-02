@@ -2,7 +2,7 @@ import express from 'express';
 import userController from '../controllers/userController';
 import managerController from '../controllers/managerController';
 import householdController from '../controllers/householdController';
-import authMiddleware from '../middlewares/authMiddleware';
+import {authMiddleware,decodeJWT} from '../middlewares/authMiddleware';
 
 let router = express.Router();
 
@@ -13,8 +13,11 @@ let initWebRoutes = (app) => {
     router.get('/api/get-user-by-ID', authMiddleware, userController.getUserByID); // truyen vao req.body.id -> trả về full thông tin user
    
     router.post('/api/create-new-user', userController.createNewUser); 
-    /* tạo mới nhân khẩu, truyền vào các trường thông tin như trong db
-    có thể bỏ qua username, password, role,
+    /*
+    api tạo tài khoản + tạo mới nhân khẩu:
+    - nếu tạo tài khoản -> truyền vào username, password, role (0 or 1), household_number
+    - tạo nhân khẩu -> truyền vào các trường thông tin như trong database, có thể bỏ qua username, password, role
+    => sau khi tạo mới nhân khẩu, api tự động thêm household_number vào bảng households nếu household_number chưa tồn tại
     */
     
     //router.post('/api/edit-user-profile', userController.editProfile);
@@ -36,11 +39,11 @@ let initWebRoutes = (app) => {
      truyền vào req.body.fee_id (int), req.body.amount(int), req.body.period(int)
     */
 
-     router.post('/api/edit-fee', managerController.editFee);
-     /* api tạo khoản thu:
+     router.put('/api/edit-fee', managerController.editFee);
+     /* api sửa khoản thu:
      truyền vào req.body.fee_id (int), req.body.amount(int), req.body.period(int)
     */
-   
+
     router.post('/api/create-contribution-for-manager', managerController.createContribution);
         /* api tạo khoản đóng góp 
         truyền vào req.body.contribution_id, req.body.start_date, req.body.end_date, req.body.content
@@ -60,7 +63,9 @@ let initWebRoutes = (app) => {
     
     router.get('/api/get-unpaid-amount-for-household', householdController.getUnpaidAmount)  // api lấy ra khoản cần thu cho mỗi hộ
 
+    router.post('/api/save-to-log', decodeJWT, userController.saveToLog)  // api lưu lại chỉnh sửa: chỉ cần truyền vào req.body.content
 
+    router.get('/api/get-full-log', userController.getFullLog) // api lấy ra danh sách chỉnh sửa
 
     /* BẢNG MÃ FEE_ID, CONTRIBUTION_ID, ROLE:
     - phí vệ sinh -> truyền vào req.body.fee_id = 1

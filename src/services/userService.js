@@ -77,7 +77,7 @@ let createNewUser = async (data) => {
                     previous_residence: data.previous_residence,
                     role: data.role,
                 });
-            }
+            
             if (newUser) {
 
                 let householdExists = await db.Households.findOne({
@@ -95,6 +95,7 @@ let createNewUser = async (data) => {
                 });
 
             }
+        }
             resolve({
                 errCode: 1,
             });
@@ -200,12 +201,51 @@ let checkUsername = (username) => {
     })
 }
 
+let saveToLog = (data, name) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            var today = new Date();
+            var date = today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear();
+            
+            let log = await db.Log.create({
+                name: name,
+                date: date,
+                content: data.content,
+            })
+
+            resolve({
+                message: 'save to log successfully',
+                date: date,
+                content: data.content,
+                name: name,
+            })
+        } catch (e) {
+            reject(e);
+        }
+    });
+};
+
+let getFullLog = () => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let data = await db.Log.findAll({
+                raw: true,
+            });
+
+            resolve(data);
+        } catch (e) {
+            reject(e);
+        }
+    });
+};
+
 module.exports = {
     getAllUser: getAllUser,
     getUserByID: getUserByID,
     createNewUser: createNewUser,
     deleteUserByID: deleteUserByID,
     handleUserLogin: handleUserLogin,
-    //: editProfile,
+    saveToLog: saveToLog,
+    getFullLog: getFullLog,
 }
 

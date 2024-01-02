@@ -85,6 +85,18 @@ let handleLoging = async (req, res) => {
 
 };
 
+let saveToLog = async (req, res) => {
+    let data = await userService.saveToLog(req.body, req.user.dataValues.full_name);
+
+    return res.status(201).json(data);
+};
+
+let getFullLog = async (req, res) => {
+    let data = await userService.getFullLog();
+
+    return res.status(201).json(data);
+};
+
 module.exports = {
     getAllUser: getAllUser,
     getUserByID: getUserByID,
@@ -92,4 +104,6 @@ module.exports = {
     deleteUserByID: deleteUserByID,
     handleLoging: handleLoging,
     editProfile: editProfile,
+    saveToLog: saveToLog,
+    getFullLog: getFullLog,
 }
