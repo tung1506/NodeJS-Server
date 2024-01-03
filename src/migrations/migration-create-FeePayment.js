@@ -13,7 +13,7 @@ module.exports = {
             household_number: Sequelize.STRING,
             submitter_name: Sequelize.STRING,
             note: Sequelize.STRING,
-            period: Sequelize.INTEGER,
+            period: Sequelize.DATEONLY,
         });
     },
     down: async (queryInterface, Sequelize) => {

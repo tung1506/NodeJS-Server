@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
         household_number: DataTypes.STRING,
         submitter_name: DataTypes.STRING,
         note: DataTypes.STRING,
-        period: DataTypes.INTEGER,
+        period: DataTypes.DATEONLY,
     }, {
         sequelize,
         modelName: 'FeePayment',
