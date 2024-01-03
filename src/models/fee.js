@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
     Fee.init({
         fee_id: DataTypes.STRING,
         amount: DataTypes.STRING,
-        period: DataTypes.DATEONLY,
+        period: DataTypes.STRING,
     }, {
         sequelize,
         modelName: 'Fee',

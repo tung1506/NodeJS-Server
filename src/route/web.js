@@ -44,6 +44,8 @@ let initWebRoutes = (app) => {
      truyền vào req.body.fee_id (int), req.body.amount(int), req.body.period(int)
     */
 
+    router.delete('/api/delete-fee', managerController.deleteFee); // truyen vao req.body.fee_id
+
     router.post('/api/create-contribution-for-manager', managerController.createContribution);
         /* api tạo khoản đóng góp 
         truyền vào req.body.contribution_id, req.body.start_date, req.body.end_date, req.body.content

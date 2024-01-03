@@ -15,6 +15,16 @@ let createFee = async (req, res) => {
     }
 };
 
+let deleteFee = async (req, res) => {
+    try {
+        let fee = await managerService.deleteFee(req.body.fee_id);
+        return res.status(201).json(fee);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
 let getFee = async (req, res) => {
     try {
         const fees = await managerService.getFee();
@@ -34,6 +44,8 @@ let editFee = async (req, res) => {
         return res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
+
 
 let getAllFeePayment = async (req, res) => {
     try {
@@ -113,4 +125,5 @@ module.exports = {
     editFee: editFee,
     getPayMents: getPayMents,
     getDetailFee: getDetailFee,
+    deleteFee: deleteFee,
 }

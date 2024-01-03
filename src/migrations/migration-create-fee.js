@@ -10,7 +10,7 @@ module.exports = {
             },
             fee_id: Sequelize.STRING,
             amount: Sequelize.STRING,
-            period: Sequelize.DATEONLY,
+            period: Sequelize.STRING,
         });
     },
     down: async (queryInterface, Sequelize) => {

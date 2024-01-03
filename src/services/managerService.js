@@ -46,6 +46,25 @@ let getFee = () => {
     });
 };
 
+let deleteFee = (fee_id) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            await Fee.destroy({
+                where: {
+                  fee_id: fee_id,
+                },
+              });
+            resolve({
+                message: 'deleted fee successfully',
+            })
+
+        } catch (error) {
+            reject(error);
+        }
+    });
+};
+
+
 let editFee = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -265,4 +284,5 @@ module.exports = {
     editFee: editFee,
     getPayMents: getPayMents,
     getDetailFee: getDetailFee,
+    deleteFee: deleteFee,
 }
