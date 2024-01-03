@@ -63,6 +63,8 @@ let initWebRoutes = (app) => {
     
     router.get('/api/get-unpaid-amount-for-household', householdController.getUnpaidAmount)  // api lấy ra khoản cần thu cho mỗi hộ
 
+    router.get('/api/get-dueAmount-and-totalAmount-for-period', managerController.getPayMents)
+
     router.post('/api/save-to-log', decodeJWT, userController.saveToLog)  // api lưu lại chỉnh sửa: chỉ cần truyền vào req.body.content
 
     router.get('/api/get-full-log', userController.getFullLog) // api lấy ra danh sách chỉnh sửa

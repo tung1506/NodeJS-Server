@@ -170,7 +170,50 @@ let getFeePeriod = () => {
     });
 };
 
+let getPayMents = (period) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let member = await db.User.count({
+                where:{}
+            })
 
+            //console.log(member + ' ' + period);
+
+            let data1 = await db.Fee.findAll({
+                where:{
+                    period: period,
+                }
+            })
+
+            
+            let data2 = await db.FeePayment.findAll({
+                where:{
+                    period: period,
+                }
+            })
+
+            let amount = 0;
+            let paid_amount = 0;
+
+            for(const x of data1){
+                amount += parseInt(x.amount);
+            }
+
+            for(const x of data2){
+                paid_amount += parseInt(x.paid_amount);
+            }
+
+            resolve({
+                dot: period,
+                tongThu: amount * member,
+                daThu: paid_amount * member,
+            })
+
+        } catch (error) {
+            reject(error);
+        }
+    });
+};
 
 module.exports = {
     createFee: createFee,
@@ -180,4 +223,5 @@ module.exports = {
     createContribution: createContribution,
     getFeePeriod: getFeePeriod,
     editFee: editFee,
+    getPayMents: getPayMents,
 }
