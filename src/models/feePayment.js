@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
     };
 
     FeePayment.init({
-        fee_id: DataTypes.INTEGER,
+        fee_id: DataTypes.STRING,
         paid_amount: DataTypes.INTEGER,
         household_number: DataTypes.STRING,
         submitter_name: DataTypes.STRING,

@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
     };
 
     ContributionPayment.init({
-        contribution_id: DataTypes.INTEGER,
+        contribution_id: DataTypes.STRING,
         paid_amount: DataTypes.INTEGER,
         household_number: DataTypes.INTEGER,
         date: DataTypes.DATE,

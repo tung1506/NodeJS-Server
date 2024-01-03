@@ -8,7 +8,7 @@ module.exports = {
                 autoIncrement: true,
                 allowNull: false,
             },
-            fee_id: Sequelize.INTEGER,
+            fee_id: Sequelize.STRING,
             amount: Sequelize.STRING,
             period: Sequelize.DATEONLY,
         });

@@ -8,7 +8,7 @@ module.exports = {
                 autoIncrement: true,
                 allowNull: false,
             },
-            fee_id: Sequelize.INTEGER,
+            fee_id: Sequelize.STRING,
             paid_amount: Sequelize.INTEGER,
             household_number: Sequelize.STRING,
             submitter_name: Sequelize.STRING,

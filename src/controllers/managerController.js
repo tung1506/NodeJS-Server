@@ -93,6 +93,16 @@ let getPayMents = async (req, res) => {
     }
 };
 
+let getDetailFee = async (req, res) => {
+    try {
+        const data = await managerService.getDetailFee();
+        res.json(data);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
 module.exports = {
     createFee: createFee,
     getFee: getFee,
@@ -102,4 +112,5 @@ module.exports = {
     getFeePeriod: getFeePeriod,
     editFee: editFee,
     getPayMents: getPayMents,
+    getDetailFee: getDetailFee,
 }

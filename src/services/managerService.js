@@ -215,6 +215,46 @@ let getPayMents = (period) => {
     });
 };
 
+let getDetailFee = async () => {
+    try {
+        let member = await db.User.count({
+            where: {}
+        });
+
+        let feeData = await db.Fee.findAll({
+            attributes: ['fee_id','amount']
+        });
+
+        for (let i = 0; i < feeData.length; i++) {
+            let x = feeData[i];
+
+            let tongCanThu = parseInt(x.amount) * member;
+
+            let fee_id = x.fee_id;
+
+            let paymentData = await db.FeePayment.findAll({
+                where: {
+                    fee_id: fee_id,
+                }
+            });
+
+            let daDong = 0;
+            for (const y of paymentData) {
+                daDong += parseInt(y.paid_amount);
+            }
+
+            // Directly modify the Sequelize instance
+            feeData[i].dataValues.tongCanThu = tongCanThu;
+            feeData[i].dataValues.daDong = daDong;
+        }
+
+        return feeData;
+    } catch (error) {
+        throw error;
+    }
+};
+
+
 module.exports = {
     createFee: createFee,
     getFee: getFee,
@@ -224,4 +264,5 @@ module.exports = {
     getFeePeriod: getFeePeriod,
     editFee: editFee,
     getPayMents: getPayMents,
+    getDetailFee: getDetailFee,
 }
